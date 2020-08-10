@@ -10,8 +10,12 @@ pipeline {
         }
         stage("Build image") {
             steps {
-                def image = docker.build("khare123/cloud-devops-capstone")
-                image.push()
+                sh "docker build -t khare123/cloud-devops-capstone ."
+            }
+        }
+        stage("Push image") {
+            steps {
+                sh "docker push khare123/cloud-devops-capstone"
             }
         }
     }
