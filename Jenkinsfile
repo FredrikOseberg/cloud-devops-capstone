@@ -13,7 +13,7 @@ pipeline {
         }
         stage("Push image") {
             steps {
-                withCredentials('dockerhub') {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
                     sh "docker push khare123/cloud-devops-capstone"
                 }
             }
