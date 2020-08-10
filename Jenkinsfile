@@ -34,7 +34,7 @@ pipeline {
         }
        stage('Deploy blue') {
 			steps {
-				withAWS(region:'us-east-1', credentials:'aws-static') {
+				withAWS(region:'eu-north-1', credentials:'aws-static') {
 					sh '''
 						kubectl apply -f ./blue-controller.yaml
 					'''
@@ -44,7 +44,7 @@ pipeline {
 
 		stage('Deploy green') {
 			steps {
-				withAWS(region:'us-east-1', credentials:'aws-static') {
+				withAWS(region:'eu-north-1', credentials:'aws-static') {
 					sh '''
 						kubectl apply -f ./green-controller.yaml
 					'''
@@ -54,7 +54,7 @@ pipeline {
 
 		stage('redirect to blue') {
 			steps {
-				withAWS(region:'us-east-1', credentials:'aws-static') {
+				withAWS(region:'eu-north-1', credentials:'aws-static') {
 					sh '''
 						kubectl apply -f ./blue-service.yaml
 					'''
@@ -70,7 +70,7 @@ pipeline {
 
 		stage('redirect to green') {
 			steps {
-				withAWS(region:'us-east-1', credentials:'aws-static') {
+				withAWS(region:'eu-north-1', credentials:'aws-static') {
 					sh '''
 						kubectl apply -f ./green-service.yaml
 					'''
