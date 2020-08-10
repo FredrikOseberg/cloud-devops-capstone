@@ -36,7 +36,7 @@ pipeline {
             steps {
                 withAWS(region:'eu-north-1', credentials: 'aws-static') {
                     sh '''
-                        kubectl apply -f ./deployment.yaml
+                        kubectl apply -f ./service.yaml
                     '''
                 }
             }
