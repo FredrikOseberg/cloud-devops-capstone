@@ -1,4 +1,9 @@
 pipeline {
+    environment {
+        imageName = "khare123/cloud-devops-capstone"
+        registryCredential = "docker"
+        image = ''
+    }
     agent {
         dockerfile true
     }
@@ -10,12 +15,16 @@ pipeline {
         }
         stage("Build image") {
             steps {
-                sh "docker build -t khare123/cloud-devops-capstone ."
+                script {
+                    image = docker.build(imageName)
+                }
             }
         }
         stage("Push image") {
             steps {
-                sh "docker push khare123/cloud-devops-capstone"
+                script {
+                    image.push()
+                }
             }
         }
     }
