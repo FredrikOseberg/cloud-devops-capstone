@@ -25,7 +25,9 @@ pipeline {
             steps {
                 withAWS(region:'eu-north-1', credentials: 'aws-static') {
                     sh '''
+                        aws eks --region eu-north-1 update-kubeconfig --name prod
                         kubectl config use-context arn:aws:eks:eu-north-1:460355206366:cluster/prod
+
                     '''
                 }
             }
