@@ -1,7 +1,5 @@
 pipeline {
     agent any
-    registry = "khare123/cloud-devops-capstone"
-
     stages {
         stage('Lint') {
             steps {
