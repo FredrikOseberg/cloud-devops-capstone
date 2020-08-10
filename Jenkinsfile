@@ -9,10 +9,14 @@ pipeline {
             }
         }
         stage("Build image") {
-            sh "docker build -t khare123/cloud-devops-capstone ."
+            steps {
+                sh "docker build -t khare123/cloud-devops-capstone ."
+            }
         }
         stage("Push image") {
-            sh "docker push khare123/cloud-devops-capstone"
+            steps {
+                sh "docker push khare123/cloud-devops-capstone"
+            }
         }
     }
 }
