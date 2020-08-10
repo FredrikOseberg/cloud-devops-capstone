@@ -32,23 +32,51 @@ pipeline {
                 }
             }
         }
-        stage("deploy image to k8s") {
+       stage('Deploy blue') {
+			steps {
+				withAWS(region:'us-east-1', credentials:'aws-static') {
+					sh '''
+						kubectl apply -f ./blue-controller.yaml
+					'''
+				}
+			}
+		}
+
+		stage('Deploy green') {
+			steps {
+				withAWS(region:'us-east-1', credentials:'aws-static') {
+					sh '''
+						kubectl apply -f ./green-controller.yaml
+					'''
+				}
+			}
+		}
+
+		stage('redirect to blue') {
+			steps {
+				withAWS(region:'us-east-1', credentials:'aws-static') {
+					sh '''
+						kubectl apply -f ./blue-service.yaml
+					'''
+				}
+			}
+		}
+
+		stage('approve') {
             steps {
-                withAWS(region:'eu-north-1', credentials: 'aws-static') {
-                    sh '''
-                        kubectl apply -f ./service.yaml
-                    '''
-                }
+                input "Ready to redirect traffic to green?"
             }
         }
-        stage("get url") {
-            steps {
-                withAWS(region:'eu-north-1', credentials: 'aws-static') {
-                    sh '''
-                        kubectl get services
-                    '''
-                }
-            }
-        }
+
+		stage('redirect to green') {
+			steps {
+				withAWS(region:'us-east-1', credentials:'aws-static') {
+					sh '''
+						kubectl apply -f ./green-service.yaml
+					'''
+				}
+			}
+		}
+
     }
 }
