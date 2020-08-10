@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        dockerfile true
+    }
     stages {
         stage('Lint') {
             steps {
@@ -8,12 +10,8 @@ pipeline {
         }
         stage("Build image") {
             steps {
-                sh "docker build -t khare123/cloud-devops-capstone ."
-            }
-        }
-        stage("Push image") {
-            steps {
-                sh "docker push khare123/cloud-devops-capstone"
+                def image = docker.build("khare123/cloud-devops-capstone")
+                image.push()
             }
         }
     }
